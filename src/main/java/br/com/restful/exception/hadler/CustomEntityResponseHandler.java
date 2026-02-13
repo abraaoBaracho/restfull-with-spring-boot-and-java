@@ -1,4 +1,4 @@
-package br.com.restfull.exception.hadler;
+package br.com.restful.exception.hadler;
 
 import java.util.Date;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import br.com.restfull.exception.ExceptionResponse;
-import br.com.restfull.exception.UnsupportedMathOperationException;
+import br.com.restful.exception.ExceptionResponse;
+import br.com.restful.exception.UnsupportedMathOperationException;
 
 @ControllerAdvice
 @RestController

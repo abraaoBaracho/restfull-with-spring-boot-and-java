@@ -1,10 +1,10 @@
-package br.com.restfull.controllers;
+package br.com.restful.controllers;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.restfull.exception.UnsupportedMathOperationException;
+import br.com.restful.exception.UnsupportedMathOperationException;
 
 @RestController
 @RequestMapping("/math")

@@ -1,4 +1,4 @@
-package br.com.restfull.model;
+package br.com.restful.model;
 
 public record Greeting(long id, String content) {
 

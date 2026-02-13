@@ -1,4 +1,4 @@
-package br.com.restfull.exception;
+package br.com.restful.exception;
 
 import java.util.Date;
 
