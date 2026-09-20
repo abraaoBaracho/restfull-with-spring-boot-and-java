@@ -7,7 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.restful.controllers.PersonController;
+import br.com.restful.dto.V1.PersonDto;
+import br.com.restful.dto.V2.PersonDtoV2;
 import br.com.restful.exception.ResourceNotFoundException;
+import static br.com.restful.mapper.ObjectMapper.parseListObjects;
+import static br.com.restful.mapper.ObjectMapper.parseObject;
+import br.com.restful.mapper.custom.PersonMapper;
 import br.com.restful.model.Person;
 import br.com.restful.repository.PersonRepository;
 
@@ -19,30 +24,44 @@ public class PersonService {
 
     @Autowired
     PersonRepository repository;
+    @Autowired
+    PersonMapper converter;
+    
 
     
 
-    public List<Person> findAll() {
+    public List<PersonDto> findAll() {
         logger.info("Finding all people!");
 
         
-        return repository.findAll();
+        return parseListObjects(repository.findAll(), PersonDto.class);
     }
 
-    public Person findById(Long id) {
+    public PersonDto findById(Long id) {
         logger.info("Finding one person!");
 
-       return repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));
+       var entity = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));
+
+        return parseObject(entity, PersonDto.class);
 
     }
 
-    public Person create(Person person) {
+    public PersonDto create(PersonDto person) {
         logger.info("Creating one person!");
 
-        return repository.save(person);
+        var entity = parseObject(person, Person.class);
+        return parseObject(repository.save(entity), PersonDto.class);
     }
 
-    public Person update(Person person) {
+    public PersonDtoV2 createV2(PersonDtoV2 person) {
+        logger.info("Creating one person V2!");
+        
+        var entity = converter.convertToEntity(person);
+
+        return converter.convertToDtoV2(repository.save(entity));
+    }
+
+    public PersonDto update(PersonDto person) {
         logger.info("Updating one person!");
 
         Person entity = repository.findById(person.getId()).orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));
@@ -52,7 +71,7 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-       return repository.save(entity);
+       return parseObject(repository.save(entity), PersonDto.class);
 
     }
 
